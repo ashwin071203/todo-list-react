@@ -1,0 +1,91 @@
+.add-task-text {
+  display: inline;
+}
+
+.add-task-plus {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .add-task-text {
+    display: none;
+  }
+
+  .add-task-plus {
+    display: inline;
+    font-size: 1.7rem;
+  }
+}
+
+.main-content {
+  width: 100%;
+}
+
+.add-task-btn {
+  margin: 5rem 0 2rem 1100px;
+  padding: 1rem 1rem;
+  background: #377dff;
+  color: #fff;
+
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(55, 125, 255, 0.12);
+  transition: background 0.2s;
+}
+
+.add-task-btn:hover {
+  background: #213547;
+}
+
+@media (max-width: 900px) {
+  .add-task-btn {
+    margin-left: 200px;
+  }
+}
+
+@media (max-width: 700px) {
+  .add-task-btn {
+    margin-left: 0;
+    width: 100%;
+
+    .add-task-btn {
+      position: fixed;
+      right: 2rem;
+      bottom: 2rem;
+      width: 56px;
+      height: 56px;
+      background: #377dff;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 2.2rem;
+      cursor: pointer;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(55, 125, 255, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .add-task-btn:hover {
+      background: #213547;
+      box-shadow: 0 6px 24px rgba(55, 125, 255, 0.18);
+    }
+
+    @media (max-width: 700px) {
+      .add-task-btn {
+        right: 1rem;
+        top: 1rem;
+        bottom: auto;
+        width: 38px;
+        height: 38px;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
