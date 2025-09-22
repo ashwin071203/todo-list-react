@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
-import TaskList from './components/TaskList';
 import AddTaskPopup from './components/AddTaskPopup';
+import EditTaskPopup from './components/EditTaskPopup';
+import AppRoutes from './components/Routes';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 
 const initialTasks = [];
 
-const About = () => <div className="content"><h2>About</h2><p>About this app.</p></div>;
-const Settings = () => <div className="content"><h2>Settings</h2><p>App settings.</p></div>;
 
 const App = () => {
-  const [tasks, setTasks] = useState(initialTasks);
+  const [tasks, setTasks] = useState(() => {
+    const saved = localStorage.getItem('tasks');
+    return saved ? JSON.parse(saved) : initialTasks;
+  });
   const [showAddPopup, setShowAddPopup] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
 
   const handleToggleComplete = (id) => {
     setTasks(tasks => tasks.map(task => task.id === id ? { ...task, completed: !task.completed } : task));
@@ -22,9 +25,27 @@ const App = () => {
     setTasks(tasks => tasks.filter(task => task.id !== id));
   };
 
-  const handleAddTask = (task) => {
-    setTasks(tasks => [...tasks, task]);
+
+
+  const handleEditTask = (task) => {
+    setEditingTask(task);
+    setShowAddPopup(true);
   };
+
+  const handleSaveTask = (task) => {
+    setTasks(tasks => [...tasks, task]);
+    setShowAddPopup(false);
+  };
+
+  const handleUpdateTask = (task) => {
+    setTasks(tasks => tasks.map(t => t.id === editingTask.id ? { ...t, ...task } : t));
+    setEditingTask(null);
+    setShowAddPopup(false);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <Router>
@@ -34,20 +55,31 @@ const App = () => {
           <button
             className="add-task-btn"
             onClick={() => setShowAddPopup(true)}
-            aria-label="Add Task"
+            
           >
             <span className="add-task-text">Add Task</span>
-            <span className="add-task-plus">+</span>
+            {/* <span className="add-task-plus">+</span> */}
           </button>
-          <Routes>
-            <Route path="/tasks" element={<TaskList tasks={tasks} onToggleComplete={handleToggleComplete} onDelete={handleDelete} />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="*" element={<TaskList tasks={tasks} onToggleComplete={handleToggleComplete} onDelete={handleDelete} />} />
-          </Routes>
+          <AppRoutes
+            tasks={tasks}
+            onToggleComplete={handleToggleComplete}
+            onDelete={handleDelete}
+            onEdit={handleEditTask}
+          />
         </div>
         {showAddPopup && (
-          <AddTaskPopup onSave={handleAddTask} onClose={() => setShowAddPopup(false)} />
+          editingTask ? (
+            <EditTaskPopup
+              initialTask={editingTask}
+              onSave={handleUpdateTask}
+              onClose={() => { setShowAddPopup(false); setEditingTask(null); }}
+            />
+          ) : (
+            <AddTaskPopup
+              onSave={handleSaveTask}
+              onClose={() => setShowAddPopup(false)}
+            />
+          )
         )}
       </div>
     </Router>

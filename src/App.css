@@ -2,7 +2,7 @@
   display: inline;
 }
 
-.add-task-plus {
+/* .add-task-plus {
   display: none;
 }
 
@@ -15,7 +15,7 @@
     display: inline;
     font-size: 1.7rem;
   }
-}
+} */
 
 .main-content {
   width: 100%;

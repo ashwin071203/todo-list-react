@@ -8,7 +8,7 @@ const priorityColors = {
     Low: 'green',
 };
 
-const TaskList = ({ tasks, onToggleComplete, onDelete }) => {
+const TaskList = ({ tasks, onToggleComplete, onDelete, onEdit }) => {
     const today = [];
     const upcoming = [];
     const overdue = [];
@@ -17,11 +17,13 @@ const TaskList = ({ tasks, onToggleComplete, onDelete }) => {
 
     tasks.forEach(task => {
         const due = new Date(task.dueDate);
+        const dueDateOnly = new Date(due.getFullYear(), due.getMonth(), due.getDate());
+        const nowDateOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         if (task.completed) {
             completed.push(task);
-        } else if (due < now) {
+        } else if (dueDateOnly < nowDateOnly) {
             overdue.push(task);
-        } else if (due.toDateString() === now.toDateString()) {
+        } else if (dueDateOnly.getTime() === nowDateOnly.getTime()) {
             today.push(task);
         } else {
             upcoming.push(task);
@@ -37,6 +39,7 @@ const TaskList = ({ tasks, onToggleComplete, onDelete }) => {
                         <span className="task-title">{task.title}</span>
                         <span className="task-date">{task.dueDate}</span>
                         <span className="task-priority" style={{ color: priorityColors[task.priority] }}>{task.priority}</span>
+                        <button className="edit-btn" onClick={() => onEdit(task)} style={{ marginRight: '0.5rem' }}>Edit</button>
                         <button className="delete-btn" onClick={() => onDelete(task.id)}>Delete</button>
                     </li>
                 ))}
@@ -70,6 +73,7 @@ TaskList.propTypes = {
     tasks: PropTypes.array.isRequired,
     onToggleComplete: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
+    onEdit: PropTypes.func.isRequired,
 };
 
 export default TaskList;

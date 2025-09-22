@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './AddTaskPopup.css';
 
-const AddTaskPopup = ({ onSave, onClose, initialTask }) => {
+const EditTaskPopup = ({ initialTask, onSave, onClose }) => {
     const [title, setTitle] = useState(initialTask?.title || '');
     const [description, setDescription] = useState(initialTask?.description || '');
     const [dueDate, setDueDate] = useState(initialTask?.dueDate || '');
@@ -12,12 +12,11 @@ const AddTaskPopup = ({ onSave, onClose, initialTask }) => {
         e.preventDefault();
         if (!title.trim()) return;
         onSave({
+            ...initialTask,
             title,
             description,
             dueDate,
             priority,
-            completed: initialTask?.completed || false,
-            id: initialTask?.id || Date.now(),
         });
         onClose();
     };
@@ -25,7 +24,7 @@ const AddTaskPopup = ({ onSave, onClose, initialTask }) => {
     return (
         <div className="popup-overlay">
             <div className="popup">
-                <h2>{initialTask ? 'Edit Task' : 'Add Task'}</h2>
+                <h2>Edit Task</h2>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="task-title">Task Title<span className="required">*</span></label>
                     <input id="task-title" type="text" value={title} onChange={e => setTitle(e.target.value)} required />
@@ -44,7 +43,7 @@ const AddTaskPopup = ({ onSave, onClose, initialTask }) => {
                     </select>
 
                     <div className="popup-actions">
-                        <button type="submit" className="save-btn">Save</button>
+                        <button type="submit" className="save-btn">Update</button>
                         <button type="button" className="cancel-btn" onClick={onClose}>Cancel</button>
                     </div>
                 </form>
@@ -53,10 +52,10 @@ const AddTaskPopup = ({ onSave, onClose, initialTask }) => {
     );
 };
 
-AddTaskPopup.propTypes = {
+EditTaskPopup.propTypes = {
+    initialTask: PropTypes.object.isRequired,
     onSave: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    initialTask: PropTypes.object,
 };
 
-export default AddTaskPopup;
+export default EditTaskPopup;

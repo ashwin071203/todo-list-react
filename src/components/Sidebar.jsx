@@ -16,7 +16,7 @@ const navItems = [
         key: 'members'
     },
     {
-        to: '/settings',
+        to: '/files',
         label: 'File Management',
         key: 'file-management'
     },
@@ -42,7 +42,7 @@ const Sidebar = () => {
                 <span className="sidebar-menu-icon">&#9776;</span>
             </button>
             <nav className={`sidebar${open ? ' open' : ''}`}>
-                <div className="sidebar-title">
+                <div className="sidebar-title hide-on-mobile">
                     Assign Tasker App
                 </div>
                 <ul>

@@ -1,20 +1,37 @@
+.edit-btn {
+    background: #ffd600;
+    color: #213547;
+    border: none;
+    border-radius: 6px;
+    padding: 0.35rem 0.9rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-right: 0.5rem;
+    transition: background 0.2s;
+}
+
+.edit-btn:hover {
+    background: #ffec80;
+    color: #213547;
+}
+
 .task-categories {
-    display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 2rem;
-    margin-left: 220px;
+    margin-left: 250px;
     padding: 2rem 1rem;
     background: #f6f8fc;
     min-height: 100vh;
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
 }
 
 .category {
     flex: 1 1 260px;
     background: #fff;
     border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(100, 108, 255, 0.08);
+    box-shadow: 0 4px 24px rgba(103, 110, 255, 0.785);
     padding: 1.5rem 1.2rem;
-    min-width: 260px;
+    min-width: 280px;
     margin-bottom: 2rem;
     border: 1px solid #e3e8f0;
 }
